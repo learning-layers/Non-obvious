@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>Non-obvious</title>
+    <!--<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>-->
+    <!--<link href='http://fonts.googleapis.com/css?family=Anaheim|EB+Garamond&subset=latin,latin-ext' rel='stylesheet' type='text/css'>-->
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.js"></script>
+    <!--<script src="js/jquery.mobile.custom.js"></script>-->
+    <script src="js/color-thief.js"></script>
+    <script src="default.js"></script>
+    <script src="js/non-obvious.js"></script>
+    <style>
+        @font-face {
+          font-family: 'Anaheim';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Anaheim'), local('Anaheim-Regular'), url('css/fonts/Anaheim-Regular.woff') format('woff');
+        }
+        @font-face {
+          font-family: 'EB Garamond';
+          font-style: normal;
+          font-weight: 400;
+          src: local('EB Garamond'), local('EBGaramond'), url('css/fonts/EBGaramond.woff') format('woff');
+        }
+        body {
+            font-family: 'Anaheim', 'Tahoma', sans-serif;
+            /* background-image: url('images/machinery2.jpg');
+            background-image: -webkit-image-set(
+              url('images/greyrock.jpg') 1x, 
+              url('images/machinery.jpg') 2x 
+            ); */
+            background-repeat: none;
+            background-size: 1296px; 
+            background-size: 100%;
+            padding:0;
+            margin:0;
+            margin-top:18px;
+            margin-left:18px;
+        }
+        #misty_layer {
+            margin:0;
+            padding:0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.2);
+            z-index:900;
+            position:absolute;
+            left:0px;
+            top:0px;
+            display:none;
+        }
+        #main {
+        }
+        #bottom_spacer {
+            height:60px;
+        }
+        .camera_switch {
+            display:none;
+        }
+        div.note {
+            position: relative;
+            font-size: 16px;
+            width: 400px;
+            padding: 4px;
+            padding-top: 16px;
+            margin: 2px;
+        }
+        .drop_area {
+            position: absolute;
+            height: 12px;
+            background-color: transparent;
+        }
+        .top {
+            left:0px;
+            top:0px;
+            width: 100%;
+        }
+        .bottom_left {
+            bottom:0px;
+            width: 40px;
+            left:0px;
+            z-index:9;
+        }
+        .bottom_right {
+            bottom:0px;
+            width:100%;
+            left:40px;
+            z-index:8;
+        }
+        div.prev_theme, div.next_theme {
+            cursor:pointer;
+            font-size: 64px;
+            position: absolute;
+            top:12px;
+            display:none;
+        }
+        div.prev_theme {
+            left: -32px;
+        }
+        div.next_theme {
+            right: -32px;
+        }
+        .drop_hover {
+            background-color: rgba(0,0,0,0.4); /* color -- */            
+        }
+        span.hint, span.type_switch {
+            font-size: 11px;
+            position: absolute;
+            line-height: 12px;
+            padding:2px;
+            left:4px;
+            top:0px;
+        }
+        span.type_switch {
+            display:none;
+            cursor:pointer;
+            z-index:10;
+        }
+        span.image_switch {
+            font-size: 11px;
+            position: absolute;
+            right:60px;
+            top:2px;
+            cursor:pointer;
+            z-index:10;
+            display:none;
+        }
+        textarea {
+            width: 386px;
+            height: 90%;
+            color: #e6e6e5; /* color text */
+            font-size: 100%;
+            border: none;
+            outline: none;
+            margin-left:8px;
+            font-family: 'Anaheim', 'Tahoma', sans-serif;
+            background-color: transparent;
+        }
+        .button {
+            text-align: center;
+            font-size:12px;
+            padding: 2px;
+            width:22px;
+            height:18px;
+            cursor:pointer;
+            display:inline-block;
+            z-index:10;
+        }
+        .dialog_button {
+            text-align: center;
+            font-size:14px;
+            padding: 2px 6px;
+            height:18px;
+            width: 80px;
+            cursor:pointer;
+            display:inline-block;
+            z-index:10;
+            margin: 8px 0px;
+            position: relative;
+        }
+        .note_buttons {
+            position: absolute;
+            top: 0px;
+            right: 2px;
+            z-index:9;
+        }
+        .theme {
+            font-size: 64px;
+        }
+        .theme textarea {
+            font-size: 64px;
+        }
+        .bottom_button_bar {
+            width: 400px;
+            position: fixed;
+            bottom: 0px;
+            height: 24px;
+            margin: 0;
+            padding: 0;
+            z-index:10;
+        }
+        .drag_bar {
+            cursor: move;
+            display:block;
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 400px;
+            height: 12px;
+            z-index:1;
+        }
+        #save_button {
+            position:absolute;
+            left: 20px;
+            width: 64px;
+        }
+        #upload_button {
+            position:absolute;
+            left: 90px;
+            width: 64px;
+        }
+        #prev_button {
+            position:absolute;
+            left: 160px;
+            width: 64px;
+        }
+        #next_button {
+            position:absolute;
+            left: 230px;
+            width: 64px;
+            display:none;
+        }
+        #add_button {
+            position:absolute;
+            left: 230px;
+            width: 64px;
+        }
+        #info_button {
+            position:absolute;
+            right:20px;
+            width:32px;
+        }
+        #info_box, #save_box, #load_box, #delete_box {
+            position:fixed;
+            margin: auto;
+            width:500px;
+            height:500px;
+            font-family: 'EB Garamond', serif;
+            font-size: 16px;
+            padding: 1em;
+            display:none;
+            top:100px;
+            left:100px;
+            z-index: 1000;
+            overflow:auto;
+        }
+        #delete_box {
+            width:300px;
+            height:100px;
+        }
+
+        #save_box, #load_box, #delete_box {
+            text-align: center;
+        }
+        #save_box textarea, #load_box textarea {
+            width:480px;
+            height:400px;
+            border: 1px solid;
+        }
+        .upload_confirm, .upload_all_confirm {
+            display:none;
+        }
+        .dialog_button span {
+            display:block;
+            position:absolute;
+            left:12px;
+            top:2px;
+        }
+        #info_box a {
+            color:pink;
+        }
+        .help_bubble {
+            font-size:80%;
+            width:220px;
+            /* height:60px; */
+            padding:0.5em;
+            display:block;
+            position:absolute;
+            border-top-right-radius:15px;            
+            border-bottom-left-radius:15px;
+            display:none;           
+        }
+
+
+
+
+    /* colors: [ bg, text, theme1, theme2, obvious1, obvious2, reflection1, reflection2, ui1, ui2 ] */
+    /* greyrock palette: 
+    { bg: 'rgb(127, 109, 107)', text:'#e6e6e5', theme1:'rgb(73, 77, 91)', theme2:'rgb(146, 130, 144)', obvious1:'rgb(157, 156, 160)', obvious2:'rgb(231, 224, 225)', reflection1:'rgb(190, 190, 180)', reflection2:'rgb(85, 92, 94)', ui1:'rgb(60, 69, 72)', ui2:'rgb(199, 170, 161)'} 
+    */
+    </style>
+    <style id ="dynamic_style">
+        body {
+            background-color: rgb(127, 109, 107); /* color bg */
+            color: #e6e6e5; /* color text */
+        }
+        textarea {
+            color: #e6e6e5; /* color text */
+        }
+        .theme {
+            background-color: rgba(73, 77, 91, 1); /* color theme1 */
+            color: rgb(146, 130, 144); /* color theme2 */
+        }
+        .theme textarea {
+            color: rgb(146, 130, 144); /* color theme2 */
+        }
+        .theme .button:hover, .theme .type_switch:hover, .image_switch:hover, #theme_help{
+            color: rgb(73, 77, 91); /* color theme1 */
+            background-color: rgb(146, 130, 144); /* color theme2 */
+        }
+        div.prev_theme, div.next_theme {
+            color: rgb(73, 77, 91); /* color theme1 */
+        }
+        .adjusted_theme {
+            background-color: rgb(73, 77, 91); /* color theme1 */
+            color: rgb(146, 130, 144); /* color theme2 */
+        }
+        .adjusted_theme textarea {
+            color: rgb(146, 130, 144); /* color theme2 */
+        }
+        .adjusted_theme .button:hover, .adjusted_theme .type_switch:hover {
+            color: rgb(73, 77, 91); /* color theme1 */
+            background-color: rgb(146, 130, 144); /* color theme2 */
+        }
+        .obvious {
+            background-color: rgba(157, 156, 160, 1); /* color obvious1 */
+            color: rgb(231, 224, 225); /* color obvious2 */
+        }
+        .obvious textarea {
+            color: rgb(231, 224, 225); /* color obvious2 */
+        }
+        .obvious .button:hover, .obvious .type_switch:hover, #obvious_help {
+            color: rgb(157, 156, 160); /* color obvious1 */
+            background-color: rgb(231, 224, 225); /* color obvious2 */
+        }
+        .reflection  {
+            background-color: rgba(190, 190, 180, 1); /* color reflection1 */
+            color: rgb(85, 92, 94); /* color reflection2 */
+        }
+        .reflection textarea  {
+            color: rgb(85, 92, 94); /* color reflection2 */
+        }
+        .reflection .button:hover, .reflection .type_switch:hover, #reflection_help, #reflection_help2 {
+            color: rgb(190, 190, 180); /* color reflection1 */
+            background-color: rgb(85, 92, 94); /* color reflection2 */
+        }
+        .bottom_button_bar, .dialog_button {
+            background-color: rgb(60, 69, 72); /* color ui1 */
+            color: rgb(199, 170, 161); /* color ui2 */
+        }
+        .bottom_button_bar .button:hover, .dialog_button:hover {
+            background-color: rgb(199, 170, 161); /* color ui2 */
+            color: rgb(60, 69, 72); /* color ui1 */
+        }
+        #info_box, #save_box, #load_box, #delete_confirm {
+            background-color: rgb(60, 69, 72); /* color ui1 */
+            color: rgb(199, 170, 161); /* color ui2 */
+        }
+        #save_box textarea, #load_box textarea {
+            border-color: rgb(199, 170, 161);
+        }
+    </style>
+</head>
+<body>
+    <div id ="misty_layer">&nbsp;</div>
+    <div style="display:none" id="background_image">
+        <img src="" width="360" height="270"/>
+    </div>
+    <div id="theme_help" class="help_bubble">
+        Write here the general theme or goal of this reflection session
+    </div>
+    <div id="obvious_help" class="help_bubble">
+        What is the first thing that comes to mind about your theme? Be short - this should be obvious for you.
+    </div>  
+    <div id="reflection_help" class="help_bubble">
+        What is interesting or non-obvious about that previous note? Tell more about it.
+    </div>  
+   <div id="reflection_help2" class="help_bubble">
+        Continue deeper into your previous reflection, or take another perspective to that claim.
+    </div>  
+
+    <div id = "main">
+        <div class="note theme">
+            <textarea>
+                Theme
+            </textarea>
+        </div>
+        <div class="note obvious">
+            Obvious
+        </div>
+        <div class="note reflection">
+            Reflection
+        </div>
+    </div>
+    <div id ="bottom_spacer">&nbsp;</div>
+    <div class ="bottom_button_bar">
+        <div class ="button" id ="save_button">&#8615; save</div>
+        <div class ="button" id ="upload_button">&#8613; upload</div>
+        <div class ="button" id ="prev_button">&lt;</div>
+        <div class ="button" id ="next_button">&gt;</div>
+        <div class ="button" id ="add_button">+</div>
+        <div class ="button" id ="info_button">i</div><!-- &#8505;  &#9432; -->
+    </div>
+    <div id="load_box">
+        <textarea>Paste JSON content here</textarea>
+        <div class="upload_dialog">
+            <div class="dialog_button cancel">cancel</div>
+            <div class="dialog_button load">load notes</div>
+        </div>
+        <div class="upload_confirm">
+            <p>The new reflection will replace this reflection.</p>
+            <div class="dialog_button cancel">cancel</div>
+            <div class="dialog_button ok">ok</div>
+        </div>
+        <div class="upload_all_confirm">
+            <p>The new set of reflections will replace all current reflections.</p>
+            <div class="dialog_button cancel">cancel</div>
+            <div class="dialog_button ok">ok</div>
+        </div>
+    </div>
+
+    <div id="save_box">
+        <label>Paste this to somewhere safe, or to another instance of Non-obvious</label>
+        <textarea></textarea>
+        <div class="dialog_button ok">ok</div>
+        <div class="dialog_button json">json <span>&bull;</span></div>
+        <div class="dialog_button plaintext">plain text <span>&bull;</span></div>
+        <div class="dialog_button all_data">all data <span>&bull;</span></div>
+    </div>
+
+    <div id="delete_box">
+        <p>Delete this theme and its reflections?</p>
+        <div class="dialog_button cancel">cancel</div>
+        <div class="dialog_button ok">ok</div>
+    </div>
+
+    <div id="info_box">
+    <h2>Non-obvious</h2>
+    <p>Personal reflection tool</p>
+    <p>Copyright 2013 Jukka Purma</p>
+    <p><!-- <img src="images/reflection.svg" width ="460" height ="288" />-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" viewBox="-2 93 512 321" width="460px" height="288px"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"></metadata><defs>
+<font-face font-family="Anaheim" font-size="14" panose-1="2 0 5 3 0 0 0 0 0 0" units-per-em="1000" underline-position="0" underline-thickness="84.33983" slope="0" x-height="486.8164" cap-height="633.3008" ascent="960.9375" descent="-328.125" font-weight="500">
+<font-face-src>
+<font-face-name name="Anaheim-Regular"/>
+</font-face-src>
+</font-face>
+<marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#currentColor">
+<g>
+<path d="M 8 0 L 0 -3 L 0 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+</g>
+<style type="text/css"><![CDATA[
+            tspan {
+                fill: currentColor;
+            }
+            text {
+                fill: currentColor;                
+            }
+            line, ellipse, rect, path {
+                stroke: currentColor;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1;
+            }
+        ]]></style>
+</marker>
+</defs><g stroke="none" stroke-opacity="1" stroke-dasharray="none" fill="none" fill-opacity="1"><g><title>Reflection model</title><ellipse cx="213.75" cy="135" rx="46.250072" ry="40.000065" /><text transform="translate(181.75 126)" ><tspan x="14.421387" y="13" textLength="35.157227">theme</tspan></text><ellipse cx="283" cy="283" rx="46.250072" ry="40.000065" /><text transform="translate(251 274)" ><tspan x="10.237793" y="13" textLength="43.524414">obvious</tspan></text><rect x="0" y="243" width="155" height="80" /><text transform="translate(5 265)" ><tspan x="30.305176" y="13" textLength="88.990234">concept source </tspan><tspan x="58.92041" y="31" textLength="27.15918">(you)</tspan></text><line x1="155" y1="283.00001" x2="226.85345" y2="282.57826" marker-end="url(#FilledArrow_Marker)" /><line x1="167.50328" y1="134.520156" x2="83.821374" y2="235.38093" marker-end="url(#FilledArrow_Marker)" /><line x1="256.17688" y1="150.95123" x2="264.61908" y2="236.07725" marker-end="url(#FilledArrow_Marker)" /><text transform="translate(205.39077 192.56664)" ><tspan x=".4501953" y="13" textLength="35.47168">valida</tspan><tspan x="35.887695" y="13" textLength="11.6621094">te</tspan></text><text transform="translate(88.499507 166.41138)" ><tspan  x=".05126953" y="13" textLength="41.89746">request</tspan></text><text transform="translate(185.98553 283.16101)" ><tspan  x="9765625e-10" y="13" textLength="28.998047">reply</tspan></text><path d="M 493.79464 252.24089 C 512.73515 269.22868 512.73515 296.77132 493.79464 313.75911 C 474.85423 330.747 444.14577 330.747 425.20536 313.75911 C 406.26485 296.77132 406.26485 269.22868 425.20536 252.24089 C 444.14577 235.25301 474.85423 235.25301 493.79464 252.24089" stroke-dasharray="4,4"/><text transform="translate(420.7 274)" ><tspan  x="10.769238" y="13" textLength="20.391602">refl</tspan><tspan  x="31.16084" y="13" textLength="35.669922">ection</tspan></text><path d="M 259.99672 135.479844 C 290.79025 138.94257 322.23715 128.064686 352.38657 145.86907 C 380.29245 162.34856 407.10226 203.40957 434.33426 234.91981" marker-end="url(#FilledArrow_Marker)" stroke-dasharray="4,4"/><path d="M 460.0818 239.50309 C 450.06266 201.96217 463.92937 146.79293 430.02136 126.86907 C 398.00744 108.058147 323.38892 120.65435 266.5102 120.17886" marker-end="url(#FilledArrow_Marker)" stroke-dasharray="4,4"/><text transform="translate(330.00141 167.87356)" ><tspan  x=".4501953" y="13" textLength="35.47168">valida</tspan><tspan  x="35.887695" y="13" textLength="11.6621094">te</tspan></text><text transform="translate(459.2768 143.51995)" ><tspan  x=".3803711" y="13" textLength="35.239258">adjust</tspan></text><line x1="329.24672" y1="283.47984" x2="401.10015" y2="283.0581" marker-end="url(#FilledArrow_Marker)" /><text transform="translate(345.04888 284.32856)" ><tspan  x=".47021484" y="13" textLength="43.05957">analyze</tspan></text><path d="M 439.66302 322.96657 C 352.09417 333.97661 230.82698 355.99443 176.9302 356 C 131.92849 356.00465 133.87217 340.66325 123.96666 329.1968" marker-end="url(#FilledArrow_Marker)" stroke-dasharray="4,4"/><text transform="translate(208.59592 331.6094)" ><tspan  x=".05126953" y="13" textLength="41.89746">request</tspan></text><line x1="477.75057" y1="323.3148" x2="498.97177" y2="370.95658" marker-end="url(#FilledArrow_Marker)" stroke-dasharray="4,4"/><text transform="translate(492.72516 390.5)" ><tspan  x=".36523438" y="13" textLength="9.269531">...</tspan></text><text transform="translate(441.73466 351.42963)" ><tspan x=".47021484" y="13" textLength="43.05957">analyze</tspan></text></g></g></svg>
+
+
+
+    </p>
+    </div>
+
+</body>
+</html>
