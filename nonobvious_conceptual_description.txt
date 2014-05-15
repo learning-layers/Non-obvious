@@ -32,7 +32,7 @@ Notes
         Is a type of Note, that must have a parent Note of type Reflection or Obvious. Since these are added only after Obvious Notes, these are (by definition!) 2nd order thoughts about theme.
 
     Adjusted Theme
-        Is a type of Note, that must have a parent Note of type Reflection or Obvious. Adjusted Themes are never automatically created as children, User can change Obvious or Reflection -note to  Adjusted Theme by UI interaction.   
+        Is a type of Note, that must have a parent Note of type Reflection or Obvious. Adjusted Themes are never automatically created as children, User can change Obvious or Reflection -note to  Adjusted Theme through UI. Adjusted themes are used to notify that the theme of reflection process has shifted from the original Theme.   
 
 Background image
     ReflectionCanvas can have Background image associated with it. It is provided as a URL to image. Color theme for ReflectionCanvas and UI is generated automatically based on colors of the image.
@@ -40,7 +40,7 @@ Background image
 Since the reflections are now stored in browser's datastore, they remain safe and from session to another, but are not available when user uses a different browser or a different machine. Load- and Save -actions are currently to support moving reflections from one browser to another or dumping them to text file.  
 
 Load-action
-    Load-action shows a panel with textarea. Saved ReflectionCanvases (JSON text dumps) can be pasted here and they will be loaded to overwrite current ReflectionCanvas.
+    Load-action shows a panel with textarea. Saved ReflectionCanvases (JSON text dumps) can be pasted here and they will be loaded to overwrite current ReflectionCanvas, or all User's canvases if the dump is a list of canvases.
 
 Save-action
     Save has three options:
