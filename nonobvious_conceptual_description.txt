@@ -1,0 +1,50 @@
+
+Capitalized nouns are concepts that are described in text. 
+() = not implemented yet.
+
+Non-obvious 
+
+User has a list of ReflectionCanvases.
+
+Each ReflectionCanvas consists of linked Notes
+
+Notes
+    Contain a piece of text. 
+    Note must have one parent Note, with the exception of the first note in each ReflectionCanvas, which doesn't have a parent.
+    Note can have 0–n child Notes. These maintain their relative order (children are a list, not a set).
+        -From multiple children it follows that notes can also have sibling notes.
+        -From these parent/child -relations it follows that notes form a threaded discussion.
+        -New notes can be inserted into any part in threads and notes can be rearranged, so the thread doesn't necessarily reflect the order of writing.          
+
+    When pressing when writing a note, the note is saved and a new child note is added and the writing focus is moved there. The type of the child note depends on the type of current note.      
+    Note has a timestamp.
+    (Note has author) -- Not yet, because this is single user/local implementation only.
+    Note can change its type (types are described below). 
+
+    Theme
+        Is a type of Note, the first Note in a ReflectionCanvas is always Theme. It is the theme or motivation of a reflection session, 'title' for a session. Theme note UI also has buttons for changing the background of reflection session.
+        When a child note is created, the child note is of type 'Obvious'
+
+    Obvious
+        Is a type of Note, that can have any kind of Note as a parent. When a child Note is created from Obvious, the child Note is of type 'Reflection'. These are to 'pre-empty' obvious thoughts and notions about theme.
+
+    Reflection
+        Is a type of Note, that must have a parent Note of type Reflection or Obvious. Since these are added only after Obvious Notes, these are (by definition!) 2nd order thoughts about theme.
+
+    Adjusted Theme
+        Is a type of Note, that must have a parent Note of type Reflection or Obvious. Adjusted Themes are never automatically created as children, User can change Obvious or Reflection -note to  Adjusted Theme by UI interaction.   
+
+Background image
+    ReflectionCanvas can have Background image associated with it. It is provided as a URL to image. Color theme for ReflectionCanvas and UI is generated automatically based on colors of the image.
+
+Since the reflections are now stored in browser's datastore, they remain safe and from session to another, but are not available when user uses a different browser or a different machine. Load- and Save -actions are currently to support moving reflections from one browser to another or dumping them to text file.  
+
+Load-action
+    Load-action shows a panel with textarea. Saved ReflectionCanvases (JSON text dumps) can be pasted here and they will be loaded to overwrite current ReflectionCanvas.
+
+Save-action
+    Save has three options:
+    1) Save current ReflectionCanvas as a text. Dumps the current reflection as a tab-intended text, where Note texts are prepended by Note type.
+    2) Export current ReflectionCanvas as a JSON file. This can be copy-pasted to another instance of Non-obvious.
+    3) Export user's all ReflectionCanvases as a JSON file. This can be copy-pasted to another instance of Non-obvious    
+
