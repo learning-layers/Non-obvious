@@ -466,7 +466,14 @@ Color.prototype = {
     },
     to_rgb: function() {
         return 'rgb(' + this.r + ', ' + this.g + ', ' + this.b + ')';
+    },
+    c: function() {
+        return 'rgb(' + this.r + ', ' + this.g + ', ' + this.b + ')';
+    },
+    a: function() {
+        return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', 0.9)';
     }
+
 }
 
 
@@ -1089,8 +1096,8 @@ function grab_colors() {
                 break;                
             } 
         }
-        PAGE.palette[dark_keys[i]] = dark.to_rgb();
-        PAGE.palette[light_keys[i]] = light.to_rgb();
+        PAGE.palette[dark_keys[i]] = dark;
+        PAGE.palette[light_keys[i]] = light;
         PAGE.palette.default = 0;
         k++;
     }
@@ -1099,33 +1106,33 @@ function grab_colors() {
 
 function update_colors() {
     var P = PAGE.palette;
-    var cs ='body { background-color: ' + P.bg +
-            '; color: ' + P.text +
-        '} textarea { color: ' + P.text + 
-        '} .prev_theme, .next_theme { color:' + P.theme1 +
-        '} .prev_theme:hover, .next_theme:hover { color:' + P.theme2 +
-        '} .theme, .adjusted_theme { background-color: '+ P.theme1 + 
-        '; color: '+ P.theme2 + 
-        '} .theme textarea, .adjusted_theme textarea { color: '+ P.theme2 +
-        '} .theme .button:hover, .theme .type_switch:hover, .adjusted_theme .button:hover, .adjusted_theme .type_switch:hover, .image_switch:hover, #theme_help { color: '+ P.theme1 + 
-        '; background-color: '+ P.theme2 + 
-        '} .obvious { background-color: ' + P.obvious1 + 
-        '; color: ' + P.obvious2 + 
-        '} .obvious textarea { color: ' + P.obvious2 +
-        '} .obvious .button:hover, .obvious .type_switch:hover, #obvious_help { color: ' + P.obvious1 + 
-        '; background-color: ' + P.obvious2 +
-        '} .reflection { background-color: ' + P.reflection1 +
-        '; color: ' + P.reflection2 + 
-        '} .reflection textarea { color: ' + P.reflection2 + 
-        '} .reflection .button:hover, .reflection .type_switch:hover, #reflection_help, #reflection_help2 { color: '+ P.reflection1 +
-        '; background-color: ' + P.reflection2 + 
-        '} .bottom_button_bar, .dialog_button { background-color: '+ P.ui1 + 
-        '; color: ' + P.ui2 + 
-        '} .bottom_button_bar .button:hover, .dialog_button:hover { background-color: ' + P.ui2 + 
-        '; color: ' + P.ui1 + 
-        '} #info_box, #save_box, #load_box, #delete_box { background-color: ' + P.ui1 + 
-        '; color: '+ P.ui2 + 
-        '} #save_box textarea, #load_box textarea { border-color: ' + P.ui2 + '}';
+    var cs ='body { background-color: ' + P.bg.a() +
+            '; color: ' + P.text.c() +
+        '} textarea { color: ' + P.text.c() + 
+        '} .prev_theme, .next_theme { color:' + P.theme1.c() +
+        '} .prev_theme:hover, .next_theme:hover { color:' + P.theme2.c() +
+        '} .theme, .adjusted_theme { background-color: '+ P.theme1.a() + 
+        '; color: '+ P.theme2.c() + 
+        '} .theme textarea, .adjusted_theme textarea { color: '+ P.theme2.c() +
+        '} .theme .button:hover, .theme .type_switch:hover, .adjusted_theme .button:hover, .adjusted_theme .type_switch:hover, .image_switch:hover, #theme_help { color: '+ P.theme1.c() + 
+        '; background-color: '+ P.theme2.a() + 
+        '} .obvious { background-color: ' + P.obvious1.a() + 
+        '; color: ' + P.obvious2.c() + 
+        '} .obvious textarea { color: ' + P.obvious2.c() +
+        '} .obvious .button:hover, .obvious .type_switch:hover, #obvious_help { color: ' + P.obvious1.c() + 
+        '; background-color: ' + P.obvious2.a() +
+        '} .reflection { background-color: ' + P.reflection1.a() +
+        '; color: ' + P.reflection2.c() + 
+        '} .reflection textarea { color: ' + P.reflection2.c() + 
+        '} .reflection .button:hover, .reflection .type_switch:hover, #reflection_help, #reflection_help2 { color: '+ P.reflection1.c() +
+        '; background-color: ' + P.reflection2.a() + 
+        '} .bottom_button_bar, .dialog_button { background-color: '+ P.ui1.a() + 
+        '; color: ' + P.ui2.c() + 
+        '} .bottom_button_bar .button:hover, .dialog_button:hover { background-color: ' + P.ui2.a() + 
+        '; color: ' + P.ui1.c() + 
+        '} #info_box, #save_box, #load_box, #delete_box { background-color: ' + P.ui1.a() + 
+        '; color: '+ P.ui2.c() + 
+        '} #save_box textarea, #load_box textarea { border-color: ' + P.ui2.c() + '}';
     $('#dynamic_style').html(cs);
 }
 /*
