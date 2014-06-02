@@ -18,7 +18,7 @@
 var IMAGES = ['images/qring.jpg', 'images/autumn1.jpg', 'images/autumn2.jpg','images/koivuja.jpg', 'images/ruohoja.jpg', 'images/suokoivuja.jpg','images/kaarna.jpg', 'images/grass.jpg', 'images/greyrock.jpg', 'images/juhannus.jpg', 'images/site.jpg', 'images/machinery2.jpg', 'images/boxes.jpg', 'images/drafting.jpg','images/paper.jpg', 'images/whiteboard.jpg']
 var PAGE;
 var INDENT = 12;
-var DEFAULT_IMAGE = 'images/qring.jpg';
+var DEFAULT_IMAGE = 'images/juhannus.jpg';
 var FOCUS_KEY;
 var DEFAULT_PALETTE = { bg: 'rgb(127, 109, 107)', text:'#e6e6e5', theme1:'rgb(73, 77, 91)', theme2:'rgb(146, 130, 144)', obvious1:'rgb(157, 156, 160)', obvious2:'rgb(231, 224, 225)', reflection1:'rgb(190, 190, 180)', reflection2:'rgb(85, 92, 94)', ui1:'rgb(60, 69, 72)', ui2:'rgb(199, 170, 161)', default:1};
 
@@ -486,6 +486,8 @@ PAGE = DATASOURCE.load();
 
 $(document).ready( function() {
     $('#background_image img').load(grab_colors);
+    $('#background_image img').attr('src', DEFAULT_IMAGE);
+    $('body').css('background-image', 'url('+ DEFAULT_IMAGE + ')');
     change_page();
     $('#save_button').click(toggle_save_box).disableSelection();
     $('#save_box .ok').click(toggle_save_box).disableSelection();
