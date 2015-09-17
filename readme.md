@@ -4,8 +4,6 @@
 
 #  Non-obvious - a reflection tool
 
-(c) Jukka Purma 2013
-
 This is a tool prototype for reflecting on subjects that you already have some knowledge and understanding.
 
 *   demo site: [http://layers.aalto.fi/Non-obvious](http://layers.aalto.fi/Non-obvious)
@@ -13,6 +11,24 @@ This is a tool prototype for reflecting on subjects that you already have some k
 *   this [_readme.html](_readme.html) | [readme.md](readme.md)
 
 [TOC]
+
+## Licence
+
+```
+Copyright 2013–2015 Jukka Purma
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
 
 ##  Using Non-obvious 
 
